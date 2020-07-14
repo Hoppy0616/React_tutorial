@@ -15,30 +15,48 @@
   </div>
 <div id="root"></div>
   <script>
+      //mousedownが起こったらイベントを呼び出す
       window.addEventListener('mousedown',function(e){
+          //class名mouse-navigationを追加
           document.body.classList.add('mouse-navigation');
+          //class名kbd-navigationを削除
           document.body.classList.remove('kbd-navigation');
       });
+      //keydownが起こったら以下のイベントを呼び出す
       window.addEventListener('keydown',function(e){
         if(e.keyCode===9){
+          //9のキーボードが押された時、classs名kbd-navigationを追加
             document.body.classList.add('kbd-navigation');
+          //class名mouse-navigationを削除
             document.body.classList.remove('mouse-navigation');
         }
       });
+    //clickが起こった時以下のイベントを呼び出す
       window.addEventListener('click',function(e){
+        //イベントで取得したタグがAかつhref名が#だった時、以下の処理を実行
         if(e.target.tagName === 'A' && e.target.getAttribute('href') === '#'){
+          //イベントを停止させる
             e.preventDefault();
         }
       });
+      //message,source,line,col,errorをエラーオブジェクトとして登録
+      //message...人が読めるエラーの説明,source...正規表現パターンのテキストを含む文字列を返す,line...
       window.oneerror = function(message,source,line,col,error){
+        //変数textを定義:errorは、呼び出された関数をトレースあるいはerrorのmessageと'(at source ; line : col )を合わせたものを返す
           var text = error ? error.stack || error : message + '(at' + source + ':' + line + ':' + col + ')';
+          //errorの時textを表示
           errors.textConcent += text + '\n';
+          //''を書き換え
           errors.style.display = '';
       };
+      //errorのログをコンソールに出力
       console.error = (function(old){
         return function error() {
+            //argumentsを配列にコピー、全部単語を繋げる
             errors.textConcent += Array.prototype.slice.call(arguments).join(' ') + '\n';
+            //''を書き換え
             errors.style.display = '';
+            //thisとargumentsを変更
             old.apply(this,arguments);
         }
       })(console.error);
