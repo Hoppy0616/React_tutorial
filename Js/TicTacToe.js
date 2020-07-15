@@ -1,16 +1,25 @@
 class Square extends React.Component {
+    constructor(props) {
+        super(props);
+        //stateを初期化
+        this.state = {
+            value: null,
+        }
+    }
     render(){
         return(
-            <button className="Square">
-                {/*TODO*/}
+            //valueの値を表示、Squareコンポーネントがクリックされた時に’X’を表示
+            <button className="Square" onclick={()=> this.setState({ value :'X' })}>
+            {this.state.value}
             </button>
         );
     }
 }
 
 class Board extends React.Component{
-    renderSquare() {
-        return <Square />;    
+    //renderSquare内でvalueの値をSquareに渡す
+    renderSquare(i) {
+        return <Square value={i} />;    
     }
 
     render() {
